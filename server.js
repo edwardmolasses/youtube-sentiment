@@ -8,6 +8,7 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const app = express();
 const port = 3001;
+const cronInterval = 1;
 
 app.use(cors());
 
@@ -53,8 +54,8 @@ async function fetchChannelVideos(channelId) {
     }
 }
 
-cron.schedule('*/1 * * * *', async () => {
-    console.log('Running the script every minute.');
+cron.schedule(`*/${cronInterval} * * * *`, async () => {
+    console.log(`Running the script at ${cronInterval} minute intervals.`);
     const channelId = await fetchChannelId('CBCNews');
     const channelVideos = await fetchChannelVideos(channelId);
 
