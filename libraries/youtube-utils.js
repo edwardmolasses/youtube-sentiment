@@ -1,17 +1,11 @@
 require("dotenv").config();
+const { channelId, videoId } = require('@gonetone/get-youtube-id-by-url')
 const { YoutubeTranscript } = require('youtube-transcript');
 const axios = require('axios');
 
 async function fetchChannelId(channelName) {
-    const channelIdApiUrl = `https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=${channelName}&key=${process.env.GOOGLE_API}`;
-
-    try {
-        const response = await axios.get(channelIdApiUrl);
-        return response.data.items[0].id;
-    } catch (error) {
-        // Handle errors
-        console.error('Error fetching data from YouTube API:', error.message);
-    }
+    const id = await channelId(channelName);
+    return id;
 }
 
 async function fetchVideoTranscript(videoId) {
