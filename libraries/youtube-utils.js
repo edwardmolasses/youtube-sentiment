@@ -1,3 +1,5 @@
+require("dotenv").config();
+const { YoutubeTranscript } = require('youtube-transcript');
 const axios = require('axios');
 
 async function fetchChannelId(channelName) {
@@ -12,6 +14,11 @@ async function fetchChannelId(channelName) {
     }
 }
 
+async function fetchVideoTranscript(videoId) {
+    const log = await YoutubeTranscript.fetchTranscript(videoId);
+    return log.map(item => item.text).join(' ');
+}
+
 async function fetchChannelVideos(channelId) {
     const videoListApiUrl = `https://www.googleapis.com/youtube/v3/search?key=${process.env.GOOGLE_API}&channelId=${channelId}&part=snippet,id&order=date&maxResults=5`;
     try {
@@ -24,4 +31,4 @@ async function fetchChannelVideos(channelId) {
     }
 }
 
-module.exports = { fetchChannelId, fetchChannelVideos };
+module.exports = { fetchChannelId, fetchChannelVideos, fetchVideoTranscript };

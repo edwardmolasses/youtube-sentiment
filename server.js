@@ -1,11 +1,11 @@
 require("dotenv").config();
+const { YoutubeTranscript } = require('youtube-transcript');
 
-const { fetchChannelId, fetchChannelVideos } = require('./libraries/youtube-utils');
+const { fetchChannelId, fetchChannelVideos, fetchVideoTranscript } = require('./libraries/youtube-utils');
 const express = require('express');
 const path = require('path');
 const cron = require('node-cron');
 const cors = require('cors');
-const { google } = require('googleapis');
 const app = express();
 const port = 3001;
 const cronInterval = 1;
@@ -26,6 +26,7 @@ app.get('*', (req, res) => {
     res.sendFile(indexPath);
 });
 
+
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
@@ -34,10 +35,9 @@ cron.schedule(`*/${cronInterval} * * * *`, async () => {
     console.log(`Running the script at ${cronInterval} minute intervals.`);
     const channelId = await fetchChannelId('CBCNews');
     const channelVideos = await fetchChannelVideos(channelId);
+    const testVideoId = channelVideos[0].id.videoId;
+    console.log(`first item videoId: ${testVideoId}`);
 
-    channelVideos.forEach(item => {
-        console.log(JSON.stringify(item, null, 2));
-    });
-
-    // Your script logic goes here
+    const log = await fetchVideoTranscript(testVideoId);
+    console.log(log);
 });
