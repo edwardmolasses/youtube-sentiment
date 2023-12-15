@@ -1,7 +1,6 @@
 require("dotenv").config();
 const { YoutubeTranscript } = require('youtube-transcript');
-
-const { fetchChannelId, fetchChannelVideos, fetchVideoTranscript } = require('./libraries/youtube-utils');
+const { getTranscripts } = require('./cronJobs');
 const express = require('express');
 const path = require('path');
 const cron = require('node-cron');
@@ -32,12 +31,5 @@ app.listen(port, () => {
 });
 
 cron.schedule(`*/${cronInterval} * * * *`, async () => {
-    console.log(`Running the script at ${cronInterval} minute intervals.`);
-    const channelId = await fetchChannelId('CBCNews');
-    const channelVideos = await fetchChannelVideos(channelId);
-    const testVideoId = channelVideos[0].id.videoId;
-    console.log(`first item videoId: ${testVideoId}`);
-
-    const log = await fetchVideoTranscript(testVideoId);
-    console.log(log);
+    getTranscripts(cronInterval);
 });
