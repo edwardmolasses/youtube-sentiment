@@ -6,11 +6,17 @@ const channelNameList = [
 ]
 
 async function getTranscripts(cronInterval) {
-    console.log(`Running the script at ${cronInterval} minute intervals.`);
+    console.log(`running the script at ${cronInterval} minute intervals ...`);
     const channelIds = await Promise.all(channelNameList.map(name => fetchChannelId(name)));
     const allChannelVideos = (await Promise.all(channelIds.map(id => fetchChannelVideos(id)))).flat();
-
-    const transcripts = await Promise.all(allChannelVideos.map(video => fetchVideoTranscript(video.id.videoId)));
+    const transcripts = await Promise.all(allChannelVideos.map(async video => {
+        const transcript = await fetchVideoTranscript(video.id.videoId);
+        return {
+            transcript,
+            channelTitle: video.snippet.channelTitle,
+            publishedAt: video.snippet.publishedAt,
+        };
+    }));
     fs.writeFileSync('channelVideos.json', JSON.stringify(transcripts, null, 2));
     transcripts && console.log('retrieved video transcripts (see channelVideos.json)');
 }
