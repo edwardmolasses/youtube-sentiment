@@ -1,20 +1,29 @@
 const fs = require('fs');
 const { fetchChannelId, fetchChannelVideos, fetchVideoTranscript } = require('./libraries/youtube-utils');
+const { all } = require('axios');
 const channelNameList = [
-    'https://www.youtube.com/@cryptogainschannel',
-    'https://www.youtube.com/@AltcoinBuzz',
+    'cryptogainschannel',
+    'AltcoinBuzz',
 ]
 
+function getChannelNameListVideosUrls(channelNameList) {
+    return channelNameList.map(name => `https://www.youtube.com/@${name}/videos`);
+}
+
 async function getTranscripts(cronInterval) {
+    const channelUrlList = getChannelNameListVideosUrls(channelNameList);
     console.log(`running the script at ${cronInterval} minute intervals ...`);
-    const channelIds = await Promise.all(channelNameList.map(name => fetchChannelId(name)));
-    const allChannelVideos = (await Promise.all(channelIds.map(id => fetchChannelVideos(id)))).flat();
+    const allChannelVideos = (await Promise.all(channelUrlList.map(async channelUrl => {
+        let videos = await fetchChannelVideos(channelUrl);
+        videos = videos.map(video => ({ ...video, channelUrl }));
+        return videos;
+    })))[0];
     const transcripts = await Promise.all(allChannelVideos.map(async video => {
-        const transcript = await fetchVideoTranscript(video.id.videoId);
+        console.log('checking video: ', video.id);
+        const transcript = await fetchVideoTranscript(video.id);
         return {
-            transcript,
-            channelTitle: video.snippet.channelTitle,
-            publishedAt: video.snippet.publishedAt,
+            ...video,
+            transcript
         };
     }));
     fs.writeFileSync('channelVideos.json', JSON.stringify(transcripts, null, 2));

@@ -24,6 +24,7 @@
     "googleapis": "^129.0.0",
     "node-cron": "^3.0.3",
     "path": "^0.12.7",
-    "youtube-transcript": "^1.0.6"
+    "youtube-transcript": "^1.0.6",
+    "yt-getvideos": "^2.1.3"
   }
 }

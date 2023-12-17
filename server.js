@@ -1,5 +1,4 @@
 require("dotenv").config();
-const { YoutubeTranscript } = require('youtube-transcript');
 const { getTranscripts } = require('./cronJobs');
 const express = require('express');
 const path = require('path');
