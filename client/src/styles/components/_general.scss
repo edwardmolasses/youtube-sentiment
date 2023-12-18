@@ -1,0 +1,160 @@
+@use "../shared" as *;
+
+.general {
+  background: transparent;
+  height: 100%;
+  z-index: 0;
+
+  &-init {
+    z-index: $z-ultimate !important;
+    animation: borderPulse 2s linear infinite;
+    border: 1px solid $color-crosshairs-note;
+    z-index: 0;
+
+    .drag-note {
+      position: absolute;
+      color: $color-crosshairs;
+      font-size: $type-teeny;
+      top: 24px;
+      left: -36px;
+      transform: rotate(-90deg);
+
+      &:after {
+        content: "DRAG / RESIZE";
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &-enabled {
+    @extend .general;
+
+    background: linear-gradient(
+          to right,
+          $color-crosshairs 1px,
+          transparent 1px
+        )
+        0 0,
+      linear-gradient(to right, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 100%,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 0 0,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    background-color: $color-white-element; // drag -- don't forget requires background-color to override
+  }
+
+  &-disabled {
+    @extend .general-enabled;
+    background: none;
+    background-color: $color-white-element;
+  }
+
+  &-item {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 24px;
+  }
+
+  &-rollup {
+    min-height: 96px;
+    display: flex;
+    border-radius: $radius-default;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    font-size: $type-lg;
+    font-weight: $default;
+    margin: 12px 0;
+    background: $color-white-hint;
+
+    b {
+      font-size: $type-tiny;
+      font-weight: $regular;
+      color: $color-white;
+      
+    }
+
+    h1 {
+      font-size: $type-h1;
+      font-weight: $default;
+      padding: 0;
+      margin: 0;
+
+      span {
+        color: $color-white-half;
+        font-weight: $default;
+      }
+    }
+
+    small {
+      font-size: $type-sm;
+      font-weight: $regular;
+      color: $color-white-default;
+
+      span {
+        color: $color-white-half;
+        font-weight: $default;
+      }
+    }
+  }
+
+  &-meta {
+    grid-column: 1 / -1;
+    grid-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    align-items: center;
+  }
+
+  &-data {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0;
+
+    h3 {
+      color: $color-white;
+      padding: 0;
+      margin: 0;
+      font-weight: $default;
+      font-size: $type-sm;
+      word-wrap: break-word;
+    }
+
+    // for error message
+    b {
+      color: $color-pink-default;
+      font-weight: $regular;
+      font-size: $type-default;
+    }
+
+    small {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      font-size: $type-tiny;
+
+      span {
+        i {
+          color: $color-mid;
+          font-size: $type-tiny;
+          padding: 0 3px;
+        }
+
+        font-weight: $regular;
+        color: $color-mid;
+      }
+    }
+
+  }
+}

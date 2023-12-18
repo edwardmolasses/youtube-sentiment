@@ -1,0 +1,133 @@
+@use "../shared" as *;
+
+html {
+  padding: 0;
+  margin: 0;
+  background-color: $color-gray-darkest;
+  background-size: 6px 6px;
+  overflow-x: hidden;
+  background-image: radial-gradient(
+    circle,
+    $color-brand-slight 1px,
+    transparent 1px
+  );
+
+  // RETINA
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    background-image: radial-gradient(
+      circle,
+      $color-brand-note 1px,
+      transparent 1px
+    );
+  }
+
+  @media (max-width: $break-md) {
+    background-image: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba($color-black, 0.1),
+      rgba($color-black, 0.1) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+
+    // RETINA
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      background: repeating-linear-gradient(
+        0deg,
+        rgba($color-black, 0.1),
+        rgba($color-black, 0.1) 0.5px,
+        transparent 0.5px,
+        transparent 1px
+      );
+    }
+  }
+}
+
+body {
+  font-family: $font-default;
+  font-size: $type-default;
+  font-weight: $regular;
+  color: $color-white;
+  // -webkit-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $default;
+  padding: 0;
+  margin: 0;
+}
+
+
+.eth {
+  color: $color-ethereum;
+}
+.btc {
+  color: $color-orange;
+}
+
+.success {
+  color: $color-green;
+  font-size: $type-lg;
+  margin: 12px;
+}
+
+.loading {
+  color: $color-brand;
+  font-size: $type-lg;
+  margin: 12px;
+}
+
+.MuiBackdrop-root {
+  background: $color-gray-dark !important;
+}
+
+
+#drawer .MuiDrawer-paper {
+  padding: 0 !important;
+  width: 240px;
+  padding: 24px !important;
+  background: $color-gray-default;
+  border-left: 2px solid $color-brand-slight;
+  box-shadow: none;
+  color: $color-white !important;
+  text-transform: uppercase;
+
+  
+
+  @media (min-width: $break-sm) {
+    width: 500px !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-white-hint;
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: $radius-slight;
+  background: $color-brand-slight;
+
+  &:hover {
+    background: $color-brand-slight;
+  }
+}

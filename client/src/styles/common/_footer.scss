@@ -1,0 +1,123 @@
+@use "../shared" as *;
+
+.footer {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: flex-end;
+  text-transform: uppercase;
+  border-top: 1px solid $color-brand-slight;
+  height: 72px;
+  padding: 0 48px;
+  background-color: $color-nav;
+  margin: 0 auto;
+  z-index: $z-nav;
+
+  @media (min-width: $break-md) {
+    padding: 0 48px;
+  }
+
+  button {
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    outline: none;
+    color: $color-white;
+    font-size: $type-default;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    justify-content: center;
+
+    i {
+      font-size: $type-default;
+      margin: 0 3px;
+    }
+  }
+
+  .unlocked {
+    font-size: $type-teeny;
+    margin: 0  0 0 12px;
+    padding: 6px;
+    transition: $transition-background;
+    min-width: 48px;
+    text-align: center;
+    border-radius: $radius-default;
+    background: $color-white-slight;
+    color: $color-white;
+    border: 1px solid $color-white-light;
+    transition: all .2s linear;
+    
+    &:hover {
+      color: $color-white;
+      border: 1px solid $color-white-half;
+      transition: all .2s linear;
+    }
+  }
+
+  .locked {
+    @extend .unlocked;
+    background: $color-orange-note;
+    color: $color-orange-default;
+    border: 1px solid $color-orange-default;
+    transition: all .2s linear;
+    
+    &:hover {
+      color: $color-orange;
+      border: 1px solid $color-orange;
+      transition: all .2s linear;
+    }
+  }
+
+  .on {
+    font-size: $type-teeny;
+    margin: 0 12px 0 0;
+    padding: 6px;
+    transition: $transition-background;
+    min-width: 48px;
+    text-align: center;
+    border-radius: $radius-default;
+    background: $color-mid-slight;
+    color: $color-mid;
+    border: 1px solid $color-mid-default;
+    transition: all .2s linear;
+    
+    &:hover {
+      color: $color-mid;
+      border: 1px solid $color-mid;
+      transition: all .2s linear;
+    }
+  }
+
+  .off {
+    @extend .on;
+    background: $color-white-note;
+    color: $color-white-default;
+    border: 1px solid transparent;
+        transition: all .2s linear;
+
+    &:hover {
+      color: $color-white;
+      border: 1px solid $color-white-light;
+            transition: all .2s linear;
+    }
+  }
+
+  &-left {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+  }
+
+  &-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: $color-white-medium;
+
+    @extend .footer-left;
+  }
+}

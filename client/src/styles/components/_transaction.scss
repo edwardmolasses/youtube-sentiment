@@ -1,0 +1,241 @@
+@use "../shared" as *;
+
+.transaction {
+  background: transparent;
+  height: 100%;
+  z-index: 0;
+
+  &-init {
+    z-index: $z-ultimate !important;
+    animation: borderPulse 2s linear infinite;
+    border: 1px solid $color-crosshairs-note;
+    z-index: 0;
+
+    .drag-note {
+      position: absolute;
+      color: $color-crosshairs;
+      font-size: $type-teeny;
+      top: 24px;
+      left: -36px;
+      transform: rotate(-90deg);
+
+      &:after {
+        content: "DRAG / RESIZE";
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &-enabled {
+    @extend .transaction;
+
+    background: linear-gradient(
+          to right,
+          $color-crosshairs 1px,
+          transparent 1px
+        )
+        0 0,
+      linear-gradient(to right, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 100%,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 0 0,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    background-color: $color-white-element; // drag -- don't forget requires background-color to override
+  }
+
+  &-disabled {
+    @extend .transaction-enabled;
+    background: none;
+    background-color: $color-white-element;
+  }
+
+  &-item {
+    margin: 24px 24px 0 24px;
+
+    small {
+      font-size: $type-default;
+      color: $color-white-medium;
+      font-size: $type-teeny;
+      i {
+        color: $color-white;
+        margin: 0 6px;
+      }
+      span {
+        font-size: $type-default;
+        color: $color-brand;
+      }
+    }
+
+
+    label {
+      font-size: $type-teeny;
+    }
+  }
+
+
+  &-meta {
+    grid-column: 1 / -1;
+    grid-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    align-items: center;
+    flex-direction: column;
+    // Override default layout using a class
+
+    &-stacked {
+      flex-direction: row;
+      @extend .transaction-meta;
+      grid-template-columns: 1fr; // Stack the inner divs for smaller parent divs
+    }
+  }
+
+  &-chain {
+    margin: 0;
+    border-radius: $radius-default;
+    background: $color-white-note;
+    padding: 6px 12px;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    min-width: 72px;
+    min-height: 36px;
+
+    label {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      font-size: $type-teeny;
+    }
+
+    h6 {
+      padding: 0;
+      margin: 0;
+      color: $color-white;
+      font-weight: $regular;
+      font-size: $type-sm;
+      i {
+        color: $color-ethereum;
+        font-size: $type-default;
+        padding: 0;
+      }
+    }
+  }
+
+  &-chart {
+    @extend .transaction-chain;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $color-brand-half;
+    }
+
+    svg {
+      width: auto;
+      max-height: 19px;
+    }
+  }
+
+  &-rec {
+    @extend .transaction-chain;
+  }
+
+  &-data {
+    grid-column: 1 / -1;
+    grid-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex-direction: column;
+    margin: 6px 0;
+    padding: 24px 12px;
+    align-items: center;
+    border-radius: $radius-default;
+    background: $color-white-hint;
+
+    h3 {
+      color: $color-white;
+      padding: 0;
+      margin: 0;
+      font-weight: $default;
+      font-size: $type-h3;
+      text-align: right;
+    }
+
+    small {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      text-transform: uppercase;
+      font-size: $type-tiny;
+
+      span {
+        i {
+          color: $color-mid;
+          font-size: $type-tiny;
+          padding: 0 3px;
+        }
+
+        font-weight: $regular;
+        color: $color-mid;
+      }
+    }
+
+    b {
+      display: inline-flex;
+      justify-content: flex-end;
+      background: $color-green-slight;
+      color: $color-green;
+      padding: 3px 12px;
+      font-weight: $regular;
+      border-radius: $radius-slight;
+      text-transform: uppercase;
+      font-size: $type-default;
+    }
+
+    &-compact {
+      @extend .transaction-data;
+      padding: 6px 12px;
+      align-items: center;
+      background: transparent;
+      border-top: 1px solid $color-white-slight;
+      border-radius: 0;
+
+      h3 {
+        color: $color-white;
+        padding: 0;
+        margin: 0;
+        font-weight: $default;
+        font-size: $type-sm;
+        text-align: right;
+      }
+
+      b {
+        display: inline-flex;
+        justify-content: flex-end;
+        background: $color-green-note;
+        color: $color-green-medium;
+        padding: 3px 12px;
+        font-weight: $regular;
+        border-radius: $radius-slight;
+        text-transform: uppercase;
+        font-size: $type-teeny;
+      }
+  
+      
+      &:last-child {
+        border-bottom: 1px solid $color-white-slight;
+      }
+    }
+  }
+}

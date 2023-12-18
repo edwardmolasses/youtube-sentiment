@@ -1,0 +1,209 @@
+@use "../shared" as *;
+
+.gas {
+  background: transparent;
+  height: 100%;
+  z-index: 0;
+
+  &-init {
+    z-index: $z-ultimate !important;
+    animation: borderPulse 2s linear infinite;
+    border: 1px solid $color-crosshairs-note;
+    z-index: 0;
+
+    .drag-note {
+      position: absolute;
+      color: $color-crosshairs;
+      font-size: $type-teeny;
+      top: 24px;
+      left: -36px;
+      transform: rotate(-90deg);
+
+      &:after {
+        content: "DRAG / RESIZE";
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &-enabled {
+    @extend .gas;
+
+    background: linear-gradient(
+          to right,
+          $color-crosshairs 1px,
+          transparent 1px
+        )
+        0 0,
+      linear-gradient(to right, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to left, $color-crosshairs 1px, transparent 1px) 100% 100%,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 0 0,
+      linear-gradient(to bottom, $color-crosshairs 1px, transparent 1px) 100% 0,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 0 100%,
+      linear-gradient(to top, $color-crosshairs 1px, transparent 1px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    background-color: $color-white-element; // drag -- don't forget requires background-color to override
+  }
+
+  &-disabled {
+    @extend .gas-enabled;
+    background: none;
+    background-color: $color-white-element;
+  }
+
+  &-item {
+    text-align: center;
+    margin: 24px;
+  }
+
+  &-rollup {
+    min-height: 96px;
+    display: flex;
+    border-radius: $radius-default;
+    background: $color-white-hint;
+    vertical-align: middle;
+    justify-content: center;
+    align-items: center;
+    font-size: $type-lg;
+    font-weight: $default;
+    margin: 12px 0;
+
+    h1 {
+      font-size: $type-h1;
+      font-weight: $default;
+      padding: 0;
+      margin: 0;
+
+      span {
+        color: $color-white-half;
+        font-weight: $default;
+      }
+    }
+
+    small {
+      font-size: $type-sm;
+      font-weight: $regular;
+      color: $color-white-default;
+
+      span {
+        color: $color-white-half;
+        font-weight: $default;
+      }
+    }
+  }
+
+  &-meta {
+    grid-column: 1 / -1;
+    grid-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch; // Set to 'stretch' for vertical stretching
+    flex-direction: column;
+
+    // Override default layout using a class
+    &-stacked {
+      flex-direction: row;
+      @extend .gas-meta;
+      grid-template-columns: 1fr; // Stack the inner divs for smaller parent divs
+    }
+  }
+
+  &-chain {
+    margin: 0;
+    border-radius: $radius-default;
+    background: $color-white-note;
+    padding: 6px 12px;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column;
+    // min-width: 72px;
+    min-height: 48px;
+
+    label {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      font-size: $type-teeny;
+    }
+
+    h6 {
+      padding: 0;
+      margin: 0;
+      color: $color-white;
+      font-weight: $regular;
+      font-size: $type-sm;
+      i {
+        color: $color-ethereum;
+        font-size: $type-default;
+        padding: 0;
+      }
+    }
+  }
+
+  &-chart {
+    @extend .gas-chain;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+      border: 1px solid $color-brand-half;
+    }
+
+    svg {
+      width: auto;
+      max-height: 19px;
+    }
+  }
+
+  &-rec {
+    @extend .gas-chain;
+  }
+
+  &-data {
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0;
+
+    h3 {
+      color: $color-white;
+      padding: 0;
+      margin: 0;
+      font-weight: $default;
+      font-size: $type-sm;
+    }
+
+    small {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      font-size: $type-tiny;
+
+      span {
+        i {
+          color: $color-mid;
+          font-size: $type-tiny;
+          padding: 0 3px;
+        }
+
+        font-weight: $regular;
+        color: $color-mid;
+      }
+    }
+
+    b {
+      margin: 0;
+      color: $color-mid-default;
+      font-weight: $default;
+      font-size: $type-tiny;
+    }
+  }
+}

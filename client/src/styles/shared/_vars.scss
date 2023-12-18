@@ -1,0 +1,75 @@
+$font-unicode: "Arial Unicode MS", "Arial", -apple-system;
+$font-default: "Barlow", "Helvetica Neue", Helvetica, Arial, sans-serif, -apple-system, "Font Awesome 6 Pro", "Font Awesome 6 Free", "FontAwesome";
+$font-alt: "Montserrat", Helvetica, Arial, sans-serif, -apple-system;
+$font-mono: "Roboto Mono", monospace;
+$font-comic: "Bowlby One SC", "Helvetica Neue", Helvetica, Arial, sans-serif, -apple-system;
+
+$font-awesome: "Font Awesome 6 Pro", "Font Awesome 6 Free", "FontAwesome", "Material Icons";
+
+$ultra: 200;
+$light: 300;
+$default: 400;
+$regular: 450;
+$bold: 600;
+
+$radius-round: 50px;
+$radius-default: 4px;
+$radius-module: 6px;
+$radius-slight: 2px;
+
+$type-h1: 28px;
+$type-h2: 19px;
+$type-h3: 16px;
+$type-h4: 13px;
+$type-huge: 36px;
+$type-massive: 60px;
+$type-metric: 35px;
+$type-lg: 21px;
+$type-xl: 28px;
+$type-xxl: 32px;
+$type-md: 16px;
+$type-copy: 15px;
+$type-sm: 14px;
+$type-xs: 13px;
+$type-xxs: 12px;
+$type-default: 11px;
+$type-tiny: 10px;
+$type-teeny: 9px;
+$type-note: 8px;
+$type-mono: 6px;
+
+$transition-opacity: opacity 0.2s linear;
+$transition-background: color 0.1s ease-in, background 0.1s ease-in;
+$transition-color: color 0.2s linear;
+$transition-scale: transform 0.2s linear;
+$transition-filter: filter 0.4s ease-in;
+$transition-boxshadow: box-shadow 0.2s ease-in;
+$transition-shift: margin-left 0.2s linear;
+$transition-font: font-size 0.2s linear;
+$transition-border: border 0.2s linear;
+$transition-indent: margin-left 0.2s ease-in;
+$transition-height: height .2s linear;
+$transition-width: width .2s ease;
+
+$transition-all: all 0.2s ease-in;
+
+$z-ultimate: 20000;
+$z-penultimate: 10000;
+$z-menu: 7000;
+$z-slider: 2000;
+$z-nav: 1200;
+$z-footer: 1000;
+$z-default: 400;
+$z-title: 300;
+$z-base: 0;
+
+$break-xxs: 480px;
+$break-xs: 720px;
+$break-sm: 840px;
+$break-md: 960px;
+$break-lg: 1280px;
+$break-xl: 1440px;
+$break-FHD: 1845px;
+$break-WQHD: 2300px;
+$break-UHD: 3200px;
+

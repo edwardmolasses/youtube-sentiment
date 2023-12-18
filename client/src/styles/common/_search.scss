@@ -1,0 +1,66 @@
+@use "../shared" as *;
+
+.search {
+  &-on {
+    display: flex;
+    align-items: center;
+    background: $color-white-element;
+    color: $color-green;
+    animation: searchBackgroundPulse 1s infinite linear;
+    padding: 12px;
+    margin: 12px 0;
+
+    &:hover {
+      animation: none;
+    }
+
+    .note {
+      position: absolute;
+      right: 12px;
+      top: 6px;
+      font-size: $type-note;
+      color: $color-white-medium;
+      text-transform: uppercase;
+
+      span {
+        background: $color-gray-darkest;
+        border-radius: $radius-default;
+        padding: 1px 3px;
+      }
+    }
+
+    ::-webkit-input-placeholder {
+      color: $color-green-medium;
+      font-weight: $default;
+      padding: 0 3px;
+      opacity: 1;
+    }
+
+    :-ms-input-placeholder {
+      color: $color-green-medium;
+      font-weight: $default;
+      padding: 0 3px;
+      opacity: 1;
+    }
+
+    ::placeholder {
+      color: $color-green-medium;
+      font-weight: $default;
+      padding: 0 3px;
+      opacity: 1;
+    }
+
+    input {
+      font-size: $type-sm;
+      font-weight: $default;
+      font-family: $font-default;
+      outline: none;
+      border: none;
+      background: transparent;
+      color: $color-green;
+      display: flex;
+      width: 100%;
+      padding: 12px;
+    }
+  }
+}

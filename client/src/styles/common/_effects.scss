@@ -1,0 +1,163 @@
+@use "../shared" as *;
+
+.pulse {
+  animation: pulse;
+  animation-duration: .5s;
+  animation-timing-function: linear;
+  animation-fill-mode:forwards;
+  animation-direction: normal;
+  animation-play-state: running;
+  animation-iteration-count: infinite;
+}
+
+.pulse-slow {
+  animation: pulseSlow;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-fill-mode:forwards;
+  animation-direction: normal;
+  animation-play-state: running;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulseSlow {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: .6;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes borderPulse {
+  0% {
+    border: 1px solid $color-crosshairs-note;
+  }
+
+  50% {
+    border: 1px solid $color-crosshairs;
+  }
+
+  100% {
+    border: 1px solid $color-crosshairs-note;
+  }
+}
+
+@keyframes elastic {
+  0% {
+    width: 0;
+  }
+
+  50% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+.spin {
+  animation: spin 1s infinite linear;
+  transform-origin: center center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinHalf {
+  0% {
+    transform: rotate(-20deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+
+.pop-in {
+  animation-name: popIn;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  animation-direction: normal;
+  animation-iteration-count: 1;
+  animation-play-state: inherit;
+  opacity: 0;
+  transform-origin: center;
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
