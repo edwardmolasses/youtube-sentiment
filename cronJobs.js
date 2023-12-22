@@ -1,9 +1,5 @@
 const fs = require('fs');
 const { getAllChannelVideos, getAllVideoTranscripts } = require('./libraries/youtube-utils');
-const channelNameList = [
-    'cryptogainschannel',
-    'AltcoinBuzz',
-]
 
 async function getTranscripts(cronInterval) {
     console.log(`running the script at ${cronInterval} minute intervals ...`);
