@@ -1,78 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useMyContext } from "../../MyContextProvider";
+import * as ContentfulLib from "contentful";
 
-interface EtherscanData {
-    ethusd: string;
-    ethusd_timestamp: string;
-    ethbtc: string;
+const SPACE_ID = "o96cnuimdmzy";
+const ACCESS_TOKEN = "BSz66SBo-g-MmMliQDivcJqK0BNBk1WJx2c3Sv41rmc";
+
+const contentfulAPI = `https://cdn.contentful.com/spaces/${SPACE_ID}/entries?access_token=${ACCESS_TOKEN}&${Date.now()}`;
+
+const client = ContentfulLib.createClient({
+  space: SPACE_ID,
+  accessToken: ACCESS_TOKEN,
+});
+
+
+interface ContentfulData {
+  items: any[];
 }
 
 function General() {
-    const dataContext = useMyContext();
-    const { moduleGeneral, dragEnabled } = dataContext;
-    const [etherscanData, setEtherscanData] = useState<EtherscanData>({ ethusd: "", ethusd_timestamp: "", ethbtc: "" });
-    const [fetchError, setFetchError] = useState(false);
+  const [data, setData] = useState<ContentfulData | undefined>();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const etherscanResponse = await fetch(
-                    `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.REACT_APP_ETHERSCAN_API_KEY}`
-                );
+  useEffect(() => {
+    client
+      .getEntries({
+        content_type: "articles",
+        limit: 8,
+      })
+      .then((response) => {
+        setData(response);
+        console.log("response", response);
+      })
+      .catch(console.error);
+  }, []);
 
-                const etherscanData = await etherscanResponse.json();
+  const dataContext = useMyContext();
+  const { moduleGas, dragEnabled, sizingStatus, draggingStatus } = dataContext;
 
-                if (etherscanData.status === "0") {
-                    setFetchError(true);
-                    setEtherscanData({ ethusd: "", ethusd_timestamp: "", ethbtc: "" });
-                } else {
-                    setEtherscanData(etherscanData.result);
-                    setFetchError(false);
-                }
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setFetchError(true);
-            }
-        };
+  if (!moduleGas) {
+    return null;
+  }
 
-        if (moduleGeneral) {
-            fetchData();
-        }
-    }, [moduleGeneral]);
-
-    if (!moduleGeneral) {
-        return null;
-    }
-
-
-    const convertTimestampToDateTime = (timestamp: number) => new Date(timestamp * 1000).toISOString().slice(0, 19).replace("T", " ");
-
-    const timestamp = Number(etherscanData.ethusd_timestamp);
-    const formattedDateTime = convertTimestampToDateTime(timestamp);
-    
-    return (
-        <div className={dragEnabled ? "general-enabled" : "general-disabled"}>
-            <div className="general-container">
-                <div className="general">
-                    <div className="general-item">
-                        <h3>CURRENT ETHEREUM PRICE</h3>
-                        <small>{formattedDateTime} UTC</small>
-                        <div className="general-rollup">
-                            {Number(etherscanData.ethusd) > 0 ? (
-                                <div>
-                                    <h1 className="pop-in">${Number(etherscanData.ethusd).toFixed(2)} <span>USD</span></h1>
-                                    <small><span>@</span> {Number(etherscanData.ethbtc).toFixed(5)}  <span>BTC</span></small>
-                                </div>
-                            ) : (
-                                <i className="fa-duotone fa-spinner-third spin loading"></i>
-                            )}
-                        </div>
-
-                    </div>
+  return (
+      <div className={dragEnabled ? "general-enabled" : "general-disabled"}>
+        <div className="general-container">
+          <div className="general-header">
+              <h3>CONTENTFUL DATA</h3>
+          </div>
+              {data?.items.map((item, index) => (
+                <div className="general-item" key={index}>
+                  <small>TITLE</small>
+                  <h3>{item.fields.title} </h3>
                 </div>
-            </div>
+              ))}
+
+          </div>
         </div>
-    );
+  );
 }
 
 export default General;

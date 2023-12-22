@@ -1,0 +1,106 @@
+@use '../shared' as *;
+
+.general {
+  background: transparent;
+  height: 100%;
+  z-index: 0;
+
+
+
+  &-drag {
+    div {
+      background: none !important;
+    }
+
+    &-on {
+      z-index: $z-ultimate !important;
+      animation: borderPulse 2s linear infinite;
+      border: 1px solid $color-crosshairs-note;
+
+      .drag-note {
+        position: absolute;
+        // top: -16px;
+        // left: 0;
+        color: $color-crosshairs;
+        font-size: $type-teeny;
+        top: 24px;
+        left: -36px;
+        transform: rotate(-90deg);
+
+        &:after {
+          content: 'DRAG / RESIZE';
+        }
+      }
+    }
+  }
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &-enabled {
+    @extend .general;
+
+    background: linear-gradient(to right, $color-crosshairs 2px, transparent 2px) 0 0,
+      linear-gradient(to right, $color-crosshairs 2px, transparent 2px) 0 100%,
+      linear-gradient(to left, $color-crosshairs 2px, transparent 2px) 100% 0,
+      linear-gradient(to left, $color-crosshairs 2px, transparent 2px) 100% 100%,
+      linear-gradient(to bottom, $color-crosshairs 2px, transparent 2px) 0 0,
+      linear-gradient(to bottom, $color-crosshairs 2px, transparent 2px) 100% 0,
+      linear-gradient(to top, $color-crosshairs 2px, transparent 2px) 0 100%,
+      linear-gradient(to top, $color-crosshairs 2px, transparent 2px) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    background-color: $color-white-element; // drag -- don't forget requires background-color to override
+  }
+
+  &-disabled {
+    @extend .general-enabled;
+    background: none;
+    background-color: $color-white-element;
+  }
+
+  &-header {
+    margin: 24px;
+    padding: 0;
+
+    h3 {
+      padding: 0;
+      margin: 0;
+      color: $color-white;
+      font-weight: $default;
+      font-size: $type-h3;
+
+    }
+  }
+
+  &-item {
+    background: $color-white-note;
+    margin: 0 24px 12px 24px;
+    padding: 12px;
+
+
+    label {
+      padding: 0;
+      margin: 0;
+      color: $color-white-medium;
+      font-weight: $default;
+      font-size: $type-teeny;
+    }
+
+    h6 {
+      padding: 0;
+      margin: 0;
+      color: $color-white;
+      font-weight: $default;
+      font-size: $type-sm;
+   
+    }
+
+
+  }
+
+
+}
