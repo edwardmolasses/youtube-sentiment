@@ -20,7 +20,6 @@ async function fetchVideoTranscript(videoId) {
     return log.map(item => item.text).join(' ');
 }
 
-// async function fetchChannelVideos(channelId) {
 async function fetchChannelVideos(channelUrl) {
     videosList = await channelVideos(channelUrl);
     return videosList;
@@ -54,4 +53,4 @@ async function getAllVideoTranscripts(allChannelVideoIds) {
     return transcripts;
 }
 
-module.exports = { fetchChannelId, fetchChannelVideos, fetchVideoTranscript, getChannelNameListVideosUrls, getAllChannelVideos, getAllVideoTranscripts };
+module.exports = { getAllChannelVideos, getAllVideoTranscripts };
