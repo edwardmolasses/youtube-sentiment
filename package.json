@@ -25,6 +25,7 @@
     "node-cron": "^3.0.3",
     "path": "^0.12.7",
     "youtube-transcript": "^1.0.6",
+    "youtubei": "^1.2.1",
     "yt-getvideos": "^2.1.3"
   }
 }
