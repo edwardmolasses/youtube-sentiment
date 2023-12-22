@@ -4,6 +4,11 @@ const { YoutubeTranscript } = require('youtube-transcript');
 const axios = require('axios');
 const { channelVideos } = require('yt-getvideos');
 
+const channelNameList = [
+    'cryptogainschannel',
+    'AltcoinBuzz',
+]
+
 async function fetchChannelId(channelName) {
     const id = await channelId(channelName);
     console.log('channel id:', id);
@@ -21,4 +26,32 @@ async function fetchChannelVideos(channelUrl) {
     return videosList;
 }
 
-module.exports = { fetchChannelId, fetchChannelVideos, fetchVideoTranscript };
+function getChannelNameListVideosUrls(channelNameList) {
+    return channelNameList.map(name => `https://www.youtube.com/@${name}/videos`);
+}
+
+async function getAllChannelVideos() {
+    const channelUrlList = getChannelNameListVideosUrls(channelNameList);
+    const allChannelVideos = (await Promise.all(channelUrlList.map(async channelUrl => {
+        let videos = await fetchChannelVideos(channelUrl);
+        videos = videos.map(video => ({ ...video, channelUrl }));
+        return videos;
+    })))[0];
+
+    return allChannelVideos;
+}
+
+async function getAllVideoTranscripts(allChannelVideoIds) {
+    const transcripts = await Promise.all(allChannelVideoIds.map(async video => {
+        console.log('checking video: ', video.id);
+        const transcript = await fetchVideoTranscript(video.id);
+        return {
+            ...video,
+            transcript
+        };
+    }));
+
+    return transcripts;
+}
+
+module.exports = { fetchChannelId, fetchChannelVideos, fetchVideoTranscript, getChannelNameListVideosUrls, getAllChannelVideos, getAllVideoTranscripts };
