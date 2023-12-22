@@ -33,6 +33,7 @@ async function getAllChannelVideos() {
     const channelUrlList = getChannelNameListVideosUrls(channelNameList);
     const allChannelVideos = (await Promise.all(channelUrlList.map(async channelUrl => {
         let videos = await fetchChannelVideos(channelUrl);
+        // TODO: could filter out videos that are old (video.publishedAt) but low in views (video.views)
         videos = videos.map(video => ({ ...video, channelUrl }));
         return videos;
     })))[0];
