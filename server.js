@@ -6,7 +6,7 @@ const cron = require('node-cron');
 const cors = require('cors');
 const app = express();
 const port = 3001;
-const cronInterval = 1;
+const cronInterval = 30;
 
 app.use(cors());
 
