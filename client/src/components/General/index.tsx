@@ -6,7 +6,7 @@ import * as contentfulManagement from "contentful-management";
 
 const spaceId: string = "o96cnuimdmzy";
 const accessToken: string = "BSz66SBo-g-MmMliQDivcJqK0BNBk1WJx2c3Sv41rmc";
-const managementToken: string = "CFPAT-f3L0wTtOa6yDBXdWDU5pkuUPVK3Ma9e3tKH1TH11IOA"; // Replace with your Contentful management token
+const managementToken: string = "CFPAT-f3L0wTtOa6yDBXdWDU5pkuUPVK3Ma9e3tKH1TH11IOA";
 
 const client = ContentfulLib.createClient({
   space: spaceId,
@@ -22,35 +22,27 @@ interface ContentfulData {
 }
 
 function General() {
-
   const [data, setData] = useState<ContentfulData | undefined>();
+  const [publishing, setPublishing] = useState(false);
+  const [inputText, setInputText] = useState("");
+  const [error, setError] = useState<string | null>(null); // New state for error handling
 
 
-  function publishEntry() {
-    managementClient
-      .getSpace(spaceId)
-      .then((space) => {
-        space.getEnvironment("master").then((environment: any) => {
-          environment
-            .createEntry("articles", {
-              fields: {
-                title: { "en-US": "HELLOWW!!!" },
-              },
-            })
-            .then((entry: any) => {
-              entry.publish();
-            })
-            .catch(console.error);
-        });
-      })
-      .catch(console.error);
+  function handlePublish() {
+    if (inputText.trim() === "") {
+      setError("Please enter something before publishing.");
+    } else {
+      setError(null);
+      setPublishing(true);
+      publishEntry(inputText);
+    }
   }
 
+  function getEntries() {
 
-  useEffect(() => {
     client
       .getEntries<ContentfulData>({
-        content_type: "articles", // Adjusted content type to match the one used in createEntry
+        content_type: "articles",
         limit: 8,
       })
       .then((response: any) => {
@@ -58,6 +50,44 @@ function General() {
         console.log("response", response);
       })
       .catch(console.error);
+  }
+
+  function publishEntry(newText: string) {
+    managementClient
+      .getSpace(spaceId)
+      .then((space) => {
+        space.getEnvironment("master").then((environment: any) => {
+          environment
+            .createEntry("articles", {
+              fields: {
+                title: { "en-US": newText }, 
+              },
+            })
+            .then((entry: any) => {
+              entry.publish();
+              setTimeout(() => {
+                getEntries();
+                setPublishing(false);
+                setInputText(""); 
+              }, 1000);
+            })
+            .catch(console.error);
+          });
+        })
+        .catch(console.error);
+  }
+
+  useEffect(() => {
+
+    getEntries();
+
+    // let timerId: NodeJS.Timeout;
+
+    // timerId = setInterval(() => {
+    //   getEntries();
+    // }, 30000);
+
+    // return () => clearInterval(timerId);
   }, []);
 
   const dataContext = useMyContext();
@@ -72,7 +102,17 @@ function General() {
       <div className="general-container">
         <div className="general-header">
           <h3>CONTENTFUL DATA</h3>
-          <button onClick={publishEntry}>TEST PUT DATA</button>
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Enter something here"
+            onFocus={(e) => setError(null)}
+          />
+          <div className="general-message">
+          {error && <div className="error-message">{error}</div>}
+          {publishing ? <><i className="fa-duotone fa-spinner-third spin"></i> PUBLISHING</>: !error && <button onClick={handlePublish}>TEST PUT DATA</button>}
+          </div>
         </div>
         {data?.items.map((item, index) => (
           <div className="general-item" key={index}>
