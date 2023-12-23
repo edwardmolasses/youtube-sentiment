@@ -101,7 +101,7 @@ function General() {
     <div className={dragEnabled ? "general-enabled" : "general-disabled"}>
       <div className="general-container">
         <div className="general-header">
-          <h3>CONTENTFUL DATA</h3>
+          <h4>PUBLISH TO CONTENTFUL</h4>
           <input
             type="text"
             value={inputText}
@@ -114,12 +114,14 @@ function General() {
           {publishing ? <><i className="fa-duotone fa-spinner-third spin"></i> PUBLISHING</>: !error && <button onClick={handlePublish}>TEST PUT DATA</button>}
           </div>
         </div>
+        <h4>READ FROM CONTENTFUL</h4>
         {data?.items.map((item, index) => (
           <div className="general-item" key={index}>
-            <small>TITLE</small>
-            <h3>{item.fields.title}</h3>
+            <label>TITLE</label>
+            <div>{item.fields.title}</div>
           </div>
         ))}
+
       </div>
     </div>
   );
