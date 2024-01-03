@@ -1,11 +1,37 @@
 @use '../shared' as *;
 
+
+.error-message {
+  font-size: $type-tiny;
+  color: $color-pink;
+  margin: 6px 0;
+  text-transform: uppercase;
+}
 .general {
+
+
+  h4 {
+    padding: 0;
+    margin: 12px 0;
+    color: $color-white;
+    font-weight: $default;
+    font-size: $type-h4;
+  }
+
   background: transparent;
   height: 100%;
   z-index: 0;
 
+  &-message {
+    height: 48px;
+    display: flex;
+    align-items: center;
 
+    i {
+      margin: 0 6px 0 0;
+    }
+    
+  }
 
   &-drag {
     div {
@@ -38,6 +64,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    padding: 24px;
   }
 
   &-enabled {
@@ -63,24 +90,68 @@
   }
 
   &-header {
-    margin: 24px;
+    margin: 0;
     padding: 0;
 
-    h3 {
-      padding: 0;
-      margin: 0;
-      color: $color-white;
+    ::-webkit-input-placeholder {
+      color: $color-white-medium;
       font-weight: $default;
-      font-size: $type-h3;
+      padding: 0 3px;
+      opacity: 1;
+    }
 
+    :-ms-input-placeholder {
+      color: $color-white-medium;
+      font-weight: $default;
+      padding: 0 3px;
+      opacity: 1;
+    }
+
+    ::placeholder {
+      color: $color-white-medium;
+      font-weight: $default;
+      padding: 0 3px;
+      opacity: 1;
+    }
+
+    input {
+      font-size: $type-sm;
+      font-weight: $default;
+      font-family: $font-default;
+      outline: none;
+      border: 1px solid $color-white-slight;
+      background: $color-white-note;
+      color: $color-white;
+      display: flex;
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0 0 0;
+      box-sizing: border-box;
+    }
+
+
+
+    button {
+      outline: none;
+      border: none;
+      background: $color-brand-note;
+      color: $color-brand;
+      padding: 6px 12px;
+      font-size: $type-default;
+      font-family: $font-default;
+      border-radius: $radius-slight;
+      margin: 12px 0;
+      cursor: pointer;
+      &:hover {
+        background: $color-brand-slight;
+      }
     }
   }
 
   &-item {
     background: $color-white-note;
-    margin: 0 24px 12px 24px;
+    margin: 0 0 12px 0;
     padding: 12px;
-
 
     label {
       padding: 0;
@@ -90,17 +161,12 @@
       font-size: $type-teeny;
     }
 
-    h6 {
+    div {
       padding: 0;
       margin: 0;
       color: $color-white;
       font-weight: $default;
       font-size: $type-sm;
-   
     }
-
-
   }
-
-
 }

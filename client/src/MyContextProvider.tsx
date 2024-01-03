@@ -1,12 +1,7 @@
 import React, { useEffect, createContext, useContext, useState, ReactNode, useCallback } from 'react';
 
 interface DefaultContextData {
-  moduleGas: boolean;
-  moduleBalance: boolean;
-  moduleCoinPrice: boolean;
-  marketDataReady: boolean;
   moduleGeneral: boolean;
-  moduleDumb: boolean;
   dragEnabled: boolean;
   keyX: number;
   keyY: number;
@@ -22,17 +17,12 @@ interface DefaultContextData {
     sizingStatus: boolean,
     draggingStatus: boolean,
   ) => void;
-  updateFooterContext: (moduleGas: boolean, moduleCoinPrice: boolean, marketDataReady: boolean, moduleBalance: boolean, moduleGeneral:boolean,moduleDumb:boolean, dragEnabled: boolean) => void;
+  updateFooterContext: (moduleGeneral:boolean,dragEnabled: boolean) => void;
   toggleModule: (moduleName: keyof DefaultContextData) => void;
 }
 
 const MyContext = createContext<DefaultContextData>({
-  moduleGas: false,
-  moduleBalance: false,
-  moduleCoinPrice: true,
-  marketDataReady: false,
   moduleGeneral: false,
-  moduleDumb: false,
   dragEnabled: false,
   keyX: 0,
   keyY: 0,
@@ -51,12 +41,7 @@ interface MyContextProviderProps {
 
 export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }) => {
   const [dragEnabled, setDragEnabled] = useState(() => getLocalStorageBoolean("dragEnabled", false));
-  const [moduleGas, setModuleGas] = useState(() => getLocalStorageBoolean("moduleGas", false));
-  const [moduleBalance, setModuleBalance] = useState(() => getLocalStorageBoolean("moduleBalance", false));
-  const [moduleCoinPrice, setModuleCoinPrice] = useState(() => getLocalStorageBoolean("moduleCoinPrice", true));
-  const [marketDataReady, setMarketDataReady] = useState(() => getLocalStorageBoolean("marketDataReady", false));
   const [moduleGeneral, setModuleGeneral] = useState(() => getLocalStorageBoolean("moduleGeneral", false));
-  const [moduleDumb, setModuleDumb] = useState(() => getLocalStorageBoolean("moduleDumb", false));
   const [keyX, setKeyX] = useState(0);
   const [keyY, setKeyY] = useState(0);
   const [keyW, setKeyW] = useState(480);
@@ -85,13 +70,8 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }
   );
 
   const updateFooterContext = useCallback(
-    (moduleGas: boolean, moduleCoinPrice: boolean, marketDataReady: boolean, moduleBalance: boolean, moduleGeneral: boolean, moduleDumb: boolean,dragEnabled: boolean) => {
-      setModuleGas(moduleGas);
-      setModuleBalance(moduleBalance);
-      setModuleCoinPrice(moduleCoinPrice);
-      setMarketDataReady(marketDataReady);
+    (moduleGeneral: boolean, dragEnabled: boolean) => {
       setModuleGeneral(moduleGeneral);
-      setModuleDumb(moduleDumb);
       setDragEnabled(dragEnabled);
     },
     []
@@ -99,18 +79,14 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }
 
 
 
+  
   const toggleModule = useCallback(
     (moduleName: keyof DefaultContextData) => {
       updateFooterContext(
-        moduleName === 'moduleGas' ? !moduleGas : moduleGas, 
-        moduleName === 'moduleCoinPrice' ? !moduleCoinPrice : moduleCoinPrice,
-        moduleName === 'marketDataReady' ? !marketDataReady : marketDataReady,
-        moduleName === 'moduleBalance' ? !moduleBalance : moduleBalance,
         moduleName === 'moduleGeneral' ? !moduleGeneral : moduleGeneral,
-        moduleName === 'moduleDumb' ? !moduleDumb : moduleDumb,
         moduleName === 'dragEnabled' ? !dragEnabled : dragEnabled);
     },
-    [moduleGas, moduleCoinPrice, moduleBalance, moduleGeneral, moduleDumb, dragEnabled, updateFooterContext]
+    [moduleGeneral, dragEnabled, updateFooterContext]
   );
 
   const contextValues: DefaultContextData = {
@@ -119,12 +95,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({ children }
     keyW,
     keyH,
     dragEnabled,
-    moduleGas,
-    moduleBalance,
     moduleGeneral,
-    moduleDumb,
-    moduleCoinPrice,
-    marketDataReady,
     sizingStatus,
     draggingStatus,
     updateContext,
