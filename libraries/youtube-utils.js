@@ -4,11 +4,6 @@ const { YoutubeTranscript } = require('youtube-transcript');
 const axios = require('axios');
 const { channelVideos } = require('yt-getvideos');
 
-const channelNameList = [
-    'cryptogainschannel',
-    'AltcoinBuzz',
-]
-
 async function fetchChannelId(channelName) {
     const id = await channelId(channelName);
     console.log('channel id:', id);
@@ -29,7 +24,7 @@ function getChannelNameListVideosUrls(channelNameList) {
     return channelNameList.map(name => `https://www.youtube.com/@${name}/videos`);
 }
 
-async function getAllChannelVideos() {
+async function getAllChannelVideos(channelNameList) {
     const channelUrlList = getChannelNameListVideosUrls(channelNameList);
     const allChannelVideos = (await Promise.all(channelUrlList.map(async channelUrl => {
         let videos = await fetchChannelVideos(channelUrl);
