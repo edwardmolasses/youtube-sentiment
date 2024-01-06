@@ -6,7 +6,8 @@ const { getPlaylist } = require('@fabricio-191/youtube')
 
 function splitStringIntoChunks(str, chunkSize = 15000) {
     const numChunks = Math.ceil(str.length / chunkSize);
-    return Array.from({ length: numChunks }, (_, i) => {
+    const firstPrompt = `The total length of the content that I want to send you is too large to send in only one piece. For sending you that content, I will follow this rule: [START PART 1/${numChunks}] this is the content of the part 1 out of ${numChunks} in total [END PART 1/${numChunks}] Then you just answer: \"Received part 1/${numChunks}\" And when I tell you \"ALL PARTS SENT\", then you can continue processing the data and answering my requests.`;
+    const prompts = Array.from({ length: numChunks }, (_, i) => {
         const startIndex = i * chunkSize;
         const endIndex = startIndex + chunkSize;
         const chunk = str.slice(startIndex, endIndex);
@@ -15,6 +16,9 @@ function splitStringIntoChunks(str, chunkSize = 15000) {
         const suffix = isLastChunk ? `[END PART ${i + 1}/${numChunks}]\nALL PARTS SENT. Now you can continue processing the request.` : `[END PART ${i + 1}/${numChunks}]\nRemember not answering yet. Just acknowledge you received this part with the message "Part ${i + 1}/${numChunks} received" and wait for the next part.`;
         return `${prefix}\n${chunk}\n${suffix}`;
     });
+    prompts.unshift(firstPrompt);
+
+    return prompts;
 }
 
 function getPlaylistIdFromUrl(urlStr) {
